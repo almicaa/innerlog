@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+innerlog.db
+.env
+venv/
+.vscode/
