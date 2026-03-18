@@ -2,72 +2,52 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div style={{ 
-      textAlign: "center", 
-      marginTop: "10vh",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: "2rem"
-    }}>
+    <div className="flex flex-col items-center text-center mt-[10vh] gap-8 px-6">
+
+      {/* Hero text */}
       <div>
-        <h1 style={{ fontSize: "3.5rem", marginBottom: "1rem" }}>
-          Your space for <span style={{ color: "#1DB954" }}>reflection</span>.
+        <h1 className="text-[3.5rem] max-sm:text-4xl font-bold mb-4 leading-tight">
+          Your space for{" "}
+          <span className="text-[#1DB954]">reflection</span>.
         </h1>
-        <p style={{ color: "#aaa", maxWidth: "600px", fontSize: "1.2rem", lineHeight: "1.6" }}>
-          InnerLog helps you track and organize your thoughts. Capture how you feel, 
+        <p className="text-[#aaa] max-w-[600px] text-[1.2rem] max-sm:text-base leading-[1.6]">
+          InnerLog helps you track and organize your thoughts. Capture how you feel,
           and let our AI provide deep philosophical and psychological insights into your daily life.
         </p>
       </div>
 
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <Link to="/write" style={primaryButtonStyle}>Start Writing</Link>
-        <Link to="/archive" style={secondaryButtonStyle}>Explore Archive</Link>
+      {/* Buttons */}
+      <div className="flex gap-4 max-sm:flex-col max-sm:w-full max-sm:max-w-xs">
+        <Link
+          to="/write"
+          className="px-8 py-[0.8rem] bg-[#1DB954] text-[#121212] no-underline rounded-full font-bold text-[1.1rem] max-sm:text-base max-sm:text-center transition-opacity hover:opacity-85"
+        >
+          Start Writing
+        </Link>
+        <Link
+          to="/archive"
+          className="px-8 py-[0.8rem] border border-[#333] text-[#f0f0f0] no-underline rounded-full font-bold text-[1.1rem] max-sm:text-base max-sm:text-center transition-opacity hover:opacity-70"
+        >
+          Explore Archive
+        </Link>
       </div>
 
-      <div style={{ marginTop: "4rem", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "2rem", maxWidth: "900px" }}>
-        <div style={featureStyle}>
-          <h3 style={{ color: "#1DB954" }}>Private</h3>
-          <p style={{ color: "#888", fontSize: "0.9rem" }}>Your thoughts are secure and stored locally in your database.</p>
+      {/* Feature cards */}
+      <div className="mt-16 max-sm:mt-8 flex flex-row max-sm:flex-col gap-4 w-full max-w-[1100px] pb-10">
+        <div className="p-6 bg-[#181818] rounded-[15px] border border-[#222] text-left flex-1">
+          <h3 className="text-[#1DB954] font-semibold text-base mb-2">Private</h3>
+          <p className="text-[#888] text-[0.9rem]">Your thoughts are secure and stored locally in your database.</p>
         </div>
-        <div style={featureStyle}>
-          <h3 style={{ color: "#1DB954" }}>Smart</h3>
-          <p style={{ color: "#888", fontSize: "0.9rem" }}>Powered by Gemini AI to analyze your tone and provide guidance.</p>
+        <div className="p-6 bg-[#181818] rounded-[15px] border border-[#222] text-left flex-1">
+          <h3 className="text-[#1DB954] font-semibold text-base mb-2">Smart</h3>
+          <p className="text-[#888] text-[0.9rem]">Powered by Gemini AI to analyze your tone and provide guidance.</p>
         </div>
-        <div style={featureStyle}>
-          <h3 style={{ color: "#1DB954" }}>Minimal</h3>
-          <p style={{ color: "#888", fontSize: "0.9rem" }}>Zero distractions. A clean interface focused entirely on your mind.</p>
+        <div className="p-6 bg-[#181818] rounded-[15px] border border-[#222] text-left flex-1">
+          <h3 className="text-[#1DB954] font-semibold text-base mb-2">Minimal</h3>
+          <p className="text-[#888] text-[0.9rem]">Zero distractions. A clean interface focused entirely on your mind.</p>
         </div>
       </div>
+
     </div>
   );
 }
-
-const primaryButtonStyle = {
-  padding: "0.8rem 2rem",
-  backgroundColor: "#1DB954",
-  color: "#121212",
-  textDecoration: "none",
-  borderRadius: "30px",
-  fontWeight: "bold",
-  fontSize: "1.1rem",
-  transition: "0.3s"
-};
-
-const secondaryButtonStyle = {
-  padding: "0.8rem 2rem",
-  border: "1px solid #333",
-  color: "#f0f0f0",
-  textDecoration: "none",
-  borderRadius: "30px",
-  fontWeight: "bold",
-  fontSize: "1.1rem",
-  transition: "0.3s"
-};
-
-const featureStyle = {
-  padding: "1.5rem",
-  backgroundColor: "#181818",
-  borderRadius: "15px",
-  border: "1px solid #222"
-};

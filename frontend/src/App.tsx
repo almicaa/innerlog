@@ -6,39 +6,32 @@ import CreatePost from "./pages/CreatePost";
 function App() {
   return (
     <Router>
-      <div style={{
-        backgroundColor: "#121212",
-        color: "#f0f0f0",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-      }}>
-        {/* Global Navigation */}
-        <nav style={{
-          padding: "1rem 2rem",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderBottom: "1px solid #333",
-          backgroundColor: "#181818",
-          position: "sticky",
-          top: 0,
-          zIndex: 1000
-        }}>
-          <Link to="/" style={{ textDecoration: "none", color: "white", display: "flex", alignItems: "center", gap: "10px" }}>
-            <div style={{ width: "30px", height: "30px", backgroundColor: "#1DB954", borderRadius: "50%" }}></div>
-            <span style={{ fontWeight: "bold", fontSize: "1.3rem", letterSpacing: "-0.5px" }}>InnerLog</span>
+      <div className="min-h-screen flex flex-col bg-[#121212] text-gray-100 font-sans">
+
+        {/* NAVBAR */}
+        <nav className="sticky top-0 z-50 bg-[#181818] border-b border-gray-800 px-6 py-4 flex justify-between items-center flex-wrap">
+
+          {/* LOGO */}
+          <Link
+            to="/"
+            className="flex items-center gap-3 text-white no-underline"
+          >
+            <div className="w-8 h-8 bg-[#1DB954] rounded-full" />
+            <span className="font-bold text-xl tracking-tight">
+              InnerLog
+            </span>
           </Link>
-          <div style={{ display: "flex", gap: "2rem" }}>
-            <Link to="/" style={navLinkStyle}>Home</Link>
-            <Link to="/write" style={navLinkStyle}>New Entry</Link>
-            <Link to="/archive" style={navLinkStyle}>Archive</Link>
+
+          {/* NAV LINKS */}
+          <div className="flex gap-6 mt-2 sm:mt-0">
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/write">New Entry</NavLink>
+            <NavLink to="/archive">Archive</NavLink>
           </div>
         </nav>
 
-        {/* Dynamic Page Content */}
-        <main style={{ flex: 1, padding: "2rem" }}>
+        {/* MAIN */}
+        <main className="flex-1 px-6 py-8 max-w-5xl w-full mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/write" element={<CreatePost />} />
@@ -46,35 +39,40 @@ function App() {
           </Routes>
         </main>
 
-        {/* Footer */}
-        <footer style={{ 
-          padding: "2rem", 
-          textAlign: "center", 
-          borderTop: "1px solid #333", 
-          color: "#777",
-          fontSize: "0.9rem"
-        }}>
-          Created by <span style={{ color: "#aaa", fontWeight: "bold" }}>Palmica</span> 
-          <img src="/palmica.png" alt="" style={{ 
-            width: "25px", 
-            height: "25px",
-            borderRadius: "50%", 
-            marginLeft: "8px",
-            verticalAlign: "middle",
-            border: "1px solid #444"
-          }} />
+        {/* FOOTER */}
+        <footer className="border-t border-gray-800 text-center py-8 text-sm text-gray-500">
+          Created by{" "}
+          <span className="text-gray-300 font-semibold">
+            Palmica
+          </span>
+
+          <img
+            src="/palmica.png"
+            alt="Palmica"
+            className="w-6 h-6 rounded-full inline-block ml-2 border border-gray-700"
+          />
         </footer>
+
       </div>
     </Router>
   );
 }
 
-const navLinkStyle = {
-  color: "#aaa",
-  textDecoration: "none",
-  fontWeight: "500",
-  fontSize: "1rem",
-  transition: "color 0.3s ease",
-};
+function NavLink({
+  to,
+  children,
+}: {
+  to: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      className="text-gray-400 font-medium no-underline transition-colors duration-300 hover:text-[#1DB954]"
+    >
+      {children}
+    </Link>
+  );
+}
 
 export default App;

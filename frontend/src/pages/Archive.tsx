@@ -4,88 +4,66 @@ import axios from "axios";
 interface Post {
   id: number;
   title: string;
-  content: string;
+  content?: string;
   ai_reflection?: string;
-  mood?: string;
+  is_private: boolean;
 }
 
 export default function Archive() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   const fetchPosts = async () => {
-    try {
-      const res = await axios.get("http://127.0.0.1:8000/posts");
-      setPosts(res.data);
-    } catch (err) {
-      console.error("Fetch error:", err);
-    }
+    const res = await axios.get("http://127.0.0.1:8000/posts");
+    setPosts(res.data);
   };
 
   useEffect(() => {
     fetchPosts();
-    // Auto-refresh every 3 seconds to catch the AI updates
-    const interval = setInterval(fetchPosts, 3000);
-    return () => clearInterval(interval);
   }, []);
 
-  // Helper to assign colors based on mood
-  const getMoodColor = (mood?: string) => {
-    const m = mood?.toLowerCase() || "";
-    if (m.includes("joyful")) return "#FFD700";
-    if (m.includes("anxious") || m.includes("angry")) return "#FF6B6B";
-    if (m.includes("calm")) return "#1DB954";
-    if (m.includes("sad")) return "#4D96FF";
-    if (m.includes("inspired")) return "#B197FC";
-    if (m.includes("philosophical") || m.includes("contemplative")) return "#888";
-    return "#333"; // Default
-  };
-
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-      <h2 style={{ marginBottom: "2rem", fontSize: "2.2rem" }}>Thought Archive</h2>
-      
-      {posts.length === 0 && (
-        <p style={{ color: "#666", textAlign: "center", marginTop: "2rem" }}>
-          No entries found. Start by capturing your first mindset!
-        </p>
-      )}
+    <div className="max-w-[800px] mx-auto px-6 mt-8">
+      <h2 className="text-2xl font-bold mb-6">Archive</h2>
 
       {posts.map(post => (
-        <div key={post.id} style={{
-          ...cardStyle,
-          borderLeft: `6px solid ${getMoodColor(post.mood)}`
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <h3 style={{ margin: 0, fontSize: "1.5rem" }}>{post.title}</h3>
-            {post.mood && (
-              <span style={{
-                backgroundColor: getMoodColor(post.mood),
-                color: "#121212",
-                padding: "4px 12px",
-                borderRadius: "20px",
-                fontSize: "0.7rem",
-                fontWeight: "bold",
-                textTransform: "uppercase"
-              }}>
-                {post.mood}
+        <div
+          key={post.id}
+          className={`relative p-6 mb-4 rounded-[10px] border overflow-hidden
+            ${post.is_private
+              ? "bg-[#161616] border-[#2a2a2a]"
+              : "bg-[#1e1e1e] border-[#222]"
+            }`}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-semibold">{post.title}</h3>
+            {post.is_private && (
+              <span className="flex items-center gap-1.5 text-xs text-[#888] bg-[#222] px-3 py-1 rounded-full border border-[#333]">
+                🔒 Private
               </span>
             )}
           </div>
-          
-          <p style={{ color: "#ccc", lineHeight: "1.6", marginTop: "1rem" }}>{post.content}</p>
-          
-          {post.ai_reflection && (
-            <div style={aiBoxStyle}>
-              <small style={{ 
-                display: "block", 
-                color: "#1DB954", 
-                fontWeight: "bold", 
-                marginBottom: "5px",
-                fontSize: "0.7rem"
-              }}>
-                AI REFLECTION
-              </small>
-              <div style={{ fontStyle: "italic" }}>{post.ai_reflection}</div>
+
+          {/* Content */}
+          <div className="relative">
+            <p className={`text-[#ccc] text-sm leading-relaxed ${post.is_private ? "blur-sm select-none" : ""}`}>
+              {post.is_private
+                ? "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptatem, quod, quia, quae quos quibusdam voluptates."
+                : post.content}
+            </p>
+
+            {post.is_private && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                <span className="text-2xl">🔒</span>
+                <span className="text-xs text-[#666]">This entry is private</span>
+              </div>
+            )}
+          </div>
+
+          {/* AI reflection */}
+          {!post.is_private && post.ai_reflection && (
+            <div className="mt-4 pt-4 border-t border-[#2a2a2a] italic text-[#1DB954] text-sm">
+              {post.ai_reflection}
             </div>
           )}
         </div>
@@ -93,22 +71,3 @@ export default function Archive() {
     </div>
   );
 }
-
-const cardStyle: React.CSSProperties = {
-  backgroundColor: "#1e1e1e",
-  padding: "1.5rem",
-  borderRadius: "12px",
-  marginBottom: "1.5rem",
-  border: "1px solid #333",
-  boxShadow: "0 4px 10px rgba(0,0,0,0.3)"
-};
-
-const aiBoxStyle: React.CSSProperties = {
-  marginTop: "1.5rem",
-  padding: "1rem",
-  backgroundColor: "#121212",
-  borderLeft: "4px solid #1DB954",
-  color: "#00ff99",
-  fontSize: "0.95rem",
-  borderRadius: "4px"
-};
