@@ -54,7 +54,7 @@ export default function PostDetail() {
 
   const fetchPost = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/posts/${id}`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/posts/${id}`);
       setPost(res.data);
     } catch {
       navigate("/archive");
@@ -62,13 +62,13 @@ export default function PostDetail() {
   };
 
   const fetchComments = async () => {
-    const res = await axios.get(`http://127.0.0.1:8000/posts/${id}/comments`);
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/posts/${id}/comments`);
     setComments(res.data);
   };
 
   const fetchMyReaction = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/posts/${id}/my-reaction`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/posts/${id}/my-reaction`);
       setMyReaction(res.data.reaction);
     } catch {}
   };
@@ -79,14 +79,14 @@ export default function PostDetail() {
   }, [id]);
 
   const handleReact = async (reaction: string) => {
-    await axios.post(`http://127.0.0.1:8000/posts/${id}/react`, { reaction });
+    await axios.post(`${process.env.REACT_APP_API_URL}/posts/${id}/react`, { reaction });
     fetchPost();
     fetchMyReaction();
   };
 
   const handleComment = async () => {
     if (!commentText.trim() || !nickname.trim()) return;
-    await axios.post(`http://127.0.0.1:8000/posts/${id}/comments`, {
+    await axios.post(`${process.env.REACT_APP_API_URL}/posts/${id}/comments`, {
       nickname: nickname.trim(),
       content: commentText.trim(),
     });
@@ -96,7 +96,7 @@ export default function PostDetail() {
   };
 
   const handleDeleteComment = async (commentId: number) => {
-    await axios.delete(`http://127.0.0.1:8000/comments/${commentId}`, {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/comments/${commentId}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     fetchComments();

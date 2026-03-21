@@ -31,7 +31,7 @@ export default function MoodDashboard() {
 
   useEffect(() => {
     if (!token) { navigate("/login"); return; }
-    axios.get("http://127.0.0.1:8000/mood/history", {
+    axios.get("${process.env.REACT_APP_API_URL}/mood/history", {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setEntries(res.data);

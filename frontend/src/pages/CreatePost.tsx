@@ -16,7 +16,7 @@ export default function CreatePost() {
     if (!title || !content) return;
     setStatus("Processing...");
     try {
-      await axios.post("http://127.0.0.1:8000/posts", {
+      await axios.post("${process.env.REACT_APP_API_URL}/posts", {
         title,
         content,
         is_private: isPrivate,

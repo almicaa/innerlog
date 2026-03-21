@@ -19,7 +19,7 @@ export default function Login() {
       const form = new FormData();
       form.append("username", email);
       form.append("password", password);
-      const res = await axios.post("http://127.0.0.1:8000/auth/login", form);
+      const res = await axios.post("${process.env.REACT_APP_API_URL}/auth/login", form);
       login(res.data.token);
       navigate("/write");
     } catch {
