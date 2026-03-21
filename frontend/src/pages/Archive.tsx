@@ -53,7 +53,7 @@ export default function Archive() {
   const navigate = useNavigate();
 
   const fetchPosts = async () => {
-    const res = await axios.get("${API_URL}/posts");
+    const res = await axios.get(`${API_URL}/posts`);
     setPosts(res.data);
     res.data.forEach((post: Post) => {
       if (!post.is_private) fetchMyReaction(post.id);

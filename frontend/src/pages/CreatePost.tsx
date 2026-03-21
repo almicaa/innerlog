@@ -17,7 +17,7 @@ export default function CreatePost() {
     if (!title || !content) return;
     setStatus("Processing...");
     try {
-      await axios.post("${API_URL}/posts", {
+      await axios.post(`${API_URL}/posts`, {
         title,
         content,
         is_private: isPrivate,
