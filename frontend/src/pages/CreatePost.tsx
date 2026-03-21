@@ -1,3 +1,4 @@
+import API_URL from "../api";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,7 @@ export default function CreatePost() {
     if (!title || !content) return;
     setStatus("Processing...");
     try {
-      await axios.post("${process.env.REACT_APP_API_URL}/posts", {
+      await axios.post("${API_URL}/posts", {
         title,
         content,
         is_private: isPrivate,

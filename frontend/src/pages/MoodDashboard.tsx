@@ -1,3 +1,4 @@
+import API_URL from "../api";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -31,7 +32,7 @@ export default function MoodDashboard() {
 
   useEffect(() => {
     if (!token) { navigate("/login"); return; }
-    axios.get("${process.env.REACT_APP_API_URL}/mood/history", {
+    axios.get("${API_URL}/mood/history", {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setEntries(res.data);

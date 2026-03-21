@@ -1,3 +1,4 @@
+import API_URL from "../api";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -52,7 +53,7 @@ export default function Archive() {
   const navigate = useNavigate();
 
   const fetchPosts = async () => {
-    const res = await axios.get("${process.env.REACT_APP_API_URL}/posts");
+    const res = await axios.get("${API_URL}/posts");
     setPosts(res.data);
     res.data.forEach((post: Post) => {
       if (!post.is_private) fetchMyReaction(post.id);
@@ -61,13 +62,13 @@ export default function Archive() {
 
   const fetchMyReaction = async (postId: number) => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/posts/${postId}/my-reaction`);
+      const res = await axios.get(`${API_URL}/posts/${postId}/my-reaction`);
       setMyReactions(prev => ({ ...prev, [postId]: res.data.reaction }));
     } catch {}
   };
 
   const fetchComments = async (postId: number) => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/posts/${postId}/comments`);
+    const res = await axios.get(`${API_URL}/posts/${postId}/comments`);
     setComments(prev => ({ ...prev, [postId]: res.data }));
   };
 
@@ -83,7 +84,7 @@ export default function Archive() {
 
   const handleReact = async (postId: number, reaction: string) => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/posts/${postId}/react`, { reaction });
+      await axios.post(`${API_URL}/posts/${postId}/react`, { reaction });
       await fetchPosts();
       await fetchMyReaction(postId);
     } catch {}
@@ -94,7 +95,7 @@ export default function Archive() {
     const nick = nickname.trim();
     if (!text || !nick) return;
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/posts/${postId}/comments`, {
+      await axios.post(`${API_URL}/posts/${postId}/comments`, {
         nickname: nick, content: text,
       });
       setCommentText(prev => ({ ...prev, [postId]: "" }));
@@ -106,7 +107,7 @@ export default function Archive() {
   const handleDeletePost = async (postId: number) => {
     if (!window.confirm("Delete this post?")) return;
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${postId}`, {
+      await axios.delete(`${API_URL}/posts/${postId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchPosts();
@@ -115,7 +116,7 @@ export default function Archive() {
 
   const handleDeleteComment = async (postId: number, commentId: number) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/comments/${commentId}`, {
+      await axios.delete(`${API_URL}/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchComments(postId);
