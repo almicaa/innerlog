@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../App";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -8,6 +9,7 @@ export default function CreatePost() {
   const [isPrivate, setIsPrivate] = useState(false);
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,20 +20,21 @@ export default function CreatePost() {
         title,
         content,
         is_private: isPrivate,
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       setTitle("");
       setContent("");
       setStatus("Saved!");
       setTimeout(() => navigate("/archive"), 1000);
     } catch {
-      setStatus("Error.");
+      setStatus("Error. Are you logged in?");
     }
   };
 
   return (
     <div className="max-w-[600px] mx-auto mt-8 px-6">
       <h2 className="text-2xl font-bold mb-6">New Entry</h2>
-
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           value={title}
@@ -55,7 +58,6 @@ export default function CreatePost() {
           />
           Private entry
         </label>
-
         <button
           type="submit"
           className="py-4 bg-[#1DB954] text-[#121212] font-bold rounded-full hover:opacity-85 transition-opacity"
@@ -63,10 +65,7 @@ export default function CreatePost() {
           Save
         </button>
       </form>
-
-      {status && (
-        <p className="mt-4 text-[#aaa] text-sm">{status}</p>
-      )}
+      {status && <p className="mt-4 text-[#aaa] text-sm">{status}</p>}
     </div>
   );
 }
