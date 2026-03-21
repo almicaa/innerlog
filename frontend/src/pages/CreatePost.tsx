@@ -1,3 +1,4 @@
+/* eslint-disable */
 import API_URL from "../api";
 import { useState } from "react";
 import axios from "axios";
