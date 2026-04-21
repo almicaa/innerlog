@@ -39,7 +39,8 @@ if SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
     )
 else:
     engine = create_engine(
-        SQLALCHEMY_DATABASE_URL
+        SQLALCHEMY_DATABASE_URL,
+        connect_args={"sslmode": "require"} 
     )
 
 SessionLocal = sessionmaker(
@@ -51,6 +52,7 @@ SessionLocal = sessionmaker(
 Base = declarative_base()
 
 active_tokens = {}
+
 # -------------------
 # MODELS
 # -------------------
@@ -162,7 +164,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # -------------------
 # AI HELPERS
 # -------------------
