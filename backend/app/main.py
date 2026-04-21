@@ -174,6 +174,8 @@ def call_gemini(prompt: str) -> str:
     headers = {"Content-Type": "application/json"}
     response = requests.post(URL, headers=headers, data=json.dumps(payload))
     result = response.json()
+    print("GEMINI STATUS:", response.status_code)
+    print("GEMINI RESULT:", result)
     if "candidates" in result:
         return result["candidates"][0]["content"]["parts"][0]["text"].strip()
     return ""
