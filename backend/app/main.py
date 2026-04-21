@@ -15,7 +15,7 @@ load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@innerlog.com")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "innerlog123")
-URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={API_KEY}"
+URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
 
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
